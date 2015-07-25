@@ -16,7 +16,28 @@ app.service('parseService', function($http){
   //Also, remember that $http returns a promise. So if you return the whole $http call (return $http(...)), you can then use .then in your controller.
   
   //postData method here
-  
+
+  this.postData = function(newPost){
+    return $http.post("https://api.parse.com/1/classes/chat", newPost);
+  };
   
   //getData method here
+
+  this.getData =  function(){
+    return $http.get("https://api.parse.com/1/classes/chat?order=-createdAt");
+  };
+
+  this.filterData = function(messages){
+     
+     if($scope.reverseBox){
+      console.log(messages);
+      messages = $filter("orderBy")(messages, messages.createdAt, true);
+      console.log(messages);
+      console.log("true");
+    }else if(!$scope.reverseBox){
+      messages = $filter("orderBy")(messages, messages.createdAt, true);
+      console.log("false");
+    }
+  }
+
 });
