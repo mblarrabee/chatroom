@@ -27,17 +27,9 @@ app.service('parseService', function($http){
     return $http.get("https://api.parse.com/1/classes/chat?order=-createdAt");
   };
 
-  this.filterData = function(messages){
-     
-     if($scope.reverseBox){
-      console.log(messages);
-      messages = $filter("orderBy")(messages, messages.createdAt, true);
-      console.log(messages);
-      console.log("true");
-    }else if(!$scope.reverseBox){
-      messages = $filter("orderBy")(messages, messages.createdAt, true);
-      console.log("false");
-    }
+  this.getReverseData = function(){
+    return $http.get("https://api.parse.com/1/classes/chat?order=createdAt");
   }
+
 
 });

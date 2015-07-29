@@ -12,6 +12,12 @@ app.controller('mainCtrl', function($scope, parseService, $filter){
     })
   };
 
+  $scope.getReverseParseData = function(){
+    parseService.getReverseData().then(function(response){
+      $scope.messages = response.data.results;
+    })
+  }
+
   $scope.getParseData();
   //The postData function will take whatever the user typed in (hint: look at the html and see what ng-model correlates to on the input box),
   //pass that text to the postData method on the parseService object which will then post it to the parse backend.
@@ -23,7 +29,17 @@ app.controller('mainCtrl', function($scope, parseService, $filter){
   }
 
   $scope.reverseOrder = function(){
-   parseService.filterData($scope.messages);
+     
+     /*if($scope.reverseBox){
+      console.log($scope.messages);
+      $scope.messages = $filter("orderBy")($scope.messages, $scope.messages.createdAt, true);
+      console.log($scope.messages);
+      console.log("true");
+    }else if(!$scope.reverseBox){
+      $scope.messages = $filter("orderBy")($scope.messages, $scope.messages.createdAt, true);
+      console.log("false");
+    }*/
+
 
     //$scope.messages.reverse();
     
@@ -33,6 +49,14 @@ app.controller('mainCtrl', function($scope, parseService, $filter){
   //uncomment this code when your getParseData function is finished
   //This goes and gets new data every second, which mimicking a chat room experience.
   setInterval(function(){
-  $scope.getParseData();
+  
+    if($scope.reverseBox){
+      $scope.getReverseParseData();
+      console.log("true");
+    }else if(!$scope.reverseBox){
+      $scope.getParseData();
+      console.log("false");
+    }
+    
   }, 1500)
 })
